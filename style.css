@@ -8,7 +8,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 button {
@@ -30,21 +29,16 @@ button {
 }
 
 #clear {
-    width: 80vh;
+    width: 20vh;
+    height: 5vh;
     margin: 5px;
 }
 .Calculator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
 }
 
 .row {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .calcBtn {
@@ -61,6 +55,7 @@ button {
     padding: 3vh;
     font-size: 36px;
     text-align: center;
+
 }
 
 #equal {

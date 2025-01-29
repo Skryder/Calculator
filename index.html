@@ -10,31 +10,31 @@
 </head>
 <body>
     <div id="display">Values go here.</div>
-    <button id="clear">CLEAR</button>
+    <button id="clear" onclick="clearDisplay()">CLEAR</button>
     <div class="Calculator">
         <div class="row">
-            <div class="calcBtn" id="seven">7</div>
-            <div class="calcBtn" id="eight">8</div>
-            <div class="calcBtn" id="nine">9</div>
-            <div class="calcBtn" id="divide">/</div>
+            <button class="calcBtn" id="seven" onclick="clickNumber(7)">7</button>
+            <button class="calcBtn" id="eight" onclick="clickNumber(8)">8</button>
+            <button class="calcBtn" id="nine" onclick="clickNumber(9)">9</button>
+            <button class="calcBtn" id="divide" onclick="divideBtn()">/</button>
         </div>
         <div class="row">
-            <div class="calcBtn" id="four">4</div>
-            <div class="calcBtn" id="five">5</div>
-            <div class="calcBtn" id="six">6</div>
-            <div class="calcBtn" id="subtract">-</div>
+            <button class="calcBtn" id="four" onclick="clickNumber(4)">4</button>
+            <button class="calcBtn" id="five" onclick="clickNumber(5)">5</button>
+            <button class="calcBtn" id="six" onclick="clickNumber(6)">6</button>
+            <button class="calcBtn" id="subtract" onclick="subtractBtn()">-</button>
         </div>
         <div class="row">
-            <div class="calcBtn" id="one">1</div>
-            <div class="calcBtn" id="two">2</div>
-            <div class="calcBtn" id="three">3</div>
-            <div class="calcBtn" id="add">+</div>
+            <button class="calcBtn" id="one" onclick="clickNumber(1)">1</button>
+            <button class="calcBtn" id="two" onclick="clickNumber(2)">2</button>
+            <button class="calcBtn" id="three" onclick="clickNumber(3)">3</button>
+            <button class="calcBtn" id="add" onclick="addBtn()">+</button>
         </div>
         <div class="row">
-            <div class="calcBtn" id="multiply">x</div>
-            <div class="calcBtn" id="zero">0</div>
-            <div class="calcBtn" id="dot">.</div>
-            <div class="calcBtn" id="equal">=</div>
+            <button class="calcBtn" id="multiply" onclick="multiplyBtn()">x</button>
+            <button class="calcBtn" id="zero" onclick="clickNumber(0)">0</button>
+            <button class="calcBtn" id="dot">.</button>
+            <button class="calcBtn" id="equal" onclick="equalsBtn()">=</button>
         </div>
     </div>
     

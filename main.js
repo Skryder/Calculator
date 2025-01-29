@@ -1,146 +1,191 @@
+class DisplayWindow {
+    displayField = document.querySelector("#display");
+    currDisplay;
+    constructor()
+    {
+        this.currDisplay = "";
+        this.displayField.textContent = "Values Go Here";
+    }
 
-//Buttons
-const displayField = document.querySelector("#display");
-const sevenBtn = document.querySelector("#seven");
-const eightBtn = document.querySelector("#eight");
-const nineBtn = document.querySelector("#nine");
-const divideBtn = document.querySelector("#divide");
-const fourBtn = document.querySelector("#four");
-const fiveBtn = document.querySelector("#five");
-const sixBtn = document.querySelector("#six");
-const subtractBtn = document.querySelector("#subtract");
-const oneBtn = document.querySelector("#one");
-const twoBtn = document.querySelector("#two");
-const threeBtn = document.querySelector("#three");
-const addBtn = document.querySelector("#add");
-const multiplyBtn = document.querySelector("#multiply");
-const zeroBtn = document.querySelector("#zero");
-const dotBtn = document.querySelector("#dot");
-const equalBtn = document.querySelector("#equal");
+    addToDisplay(value)
+    {
+        this.currDisplay += value;
+        this.displayField.textContent = this.currDisplay;
+    }
 
-//Sets up the handlers for the buttons.
-setUpHandlers();
+    clearDisplay() { 
+        this.currDisplay = "";
+        this.displayField.textContent = this.currDisplay;
+    }
 
-let first = "";
-let operand = "";
-let second = "";
-let currDisplay = ""; //This will be the expression to calculate
-let newExpression = true;
+    getCurrValue() {
+        console.log(this.currDisplay);
+        return this.currDisplay;
+    }
 
+    updateDisplay() {
+        this.displayField.textContent = this.currDisplay;
+    }
 
-
-
-
-function calculate(expression) {
-    let value = 0;
-    //example: 52+19/29-68*23+12.5/2.3+4*9 = -5814.742
-
-
-
-    console.log(value);
-    newExpression = true;
 }
 
-function operate(first, operand, second){
+let currentVal = "";
+let operand = "";
+let heldVal = "";
+let newExpression = true;
+let evalPending = false;
+let clearOnNext = false;
+let _display = new DisplayWindow();
+
+function add() {
+    num = parseInt(heldVal) + parseInt(currentVal);
+    console.log(`Added! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
+    _display.clearDisplay();
+    _display.addToDisplay(num);
+    evalPending = false;
+    currentVal = num;
+    operand = "";
+}
+
+function addBtn() {
+    if (currentVal == "")
+    {
+        console.log("invalid");
+        return;
+    }
+    if (evalPending){
+        calculate();
+    }
+    heldVal = currentVal;
+    operand = "+";
+    currentVal = "";
+    evalPending = true;
+    clearOnNext = true;
+}
+
+function subtract() {
+    num = parseInt(heldVal) - parseInt(currentVal);
+    console.log(`Subtracted! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
+    _display.clearDisplay();
+    _display.addToDisplay(num);
+    evalPending = false;
+    currentVal = num;
+    operand = "";
+}
+
+function subtractBtn() {
+    if (currentVal == "")
+    {
+        console.log("invalid");
+        return;
+    }
+    if (evalPending){
+        calculate();
+    }
+    heldVal = currentVal;
+    operand = "-";
+    currentVal = "";
+    evalPending = true;
+    clearOnNext = true;
+}
+
+function multiply() {
+    num = parseInt(heldVal) * parseInt(currentVal);
+    console.log(`Multiplied! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
+    _display.clearDisplay();
+    _display.addToDisplay(num);
+    evalPending = false;
+    currentVal = num;
+    operand = "";
+}
+
+function multiplyBtn() {
+    if (currentVal == "")
+    {
+        console.log("invalid");
+        return;
+    }
+    if (evalPending){
+        calculate();
+    }
+    heldVal = currentVal;
+    operand = "*";
+    currentVal = "";
+    evalPending = true;
+    clearOnNext = true;
+}
+
+function divide() {
+    num = parseInt(heldVal) / parseInt(currentVal);
+    console.log(`Divided! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
+    _display.clearDisplay();
+    _display.addToDisplay(num);
+    evalPending = false;
+    currentVal = num;
+    operand = "";
+}
+
+function divideBtn() {
+    if (currentVal == "")
+    {
+        console.log("invalid");
+        return;
+    }
+    if (evalPending){
+        calculate();
+    }
+    heldVal = currentVal;
+    operand = "/";
+    currentVal = "";
+    evalPending = true;
+    clearOnNext = true;
+}
+
+function clickNumber(number){
+    if (clearOnNext) {
+        _display.clearDisplay();
+        clearOnNext = false;
+    }
+    currentVal += number;
+    _display.addToDisplay(number);
+    console.log(`clicked ${number}: held=${heldVal}, current=${currentVal}`)
+}
+
+function equalsBtn()
+{
+    if (currentVal == "" || operand == "")
+    {
+        console.log("invalid");
+        return;
+    }
+    calculate();
+    evalPending = false;
+    clearOnNext = true;
+    currentVal = "";
+    heldVal = "";
+    operand = "";
+}
+
+function calculate()
+{
     switch (operand) {
-        case "+":
-            return add(first, second);
-        case "-":
-            return subtract(first, second);
-        case "*":
-            return multiply(first, second);
-        case "/": 
-            return divide(first, second);
+        case "+": add(); break;
+        case "-": subtract(); break;
+        case "*": multiply(); break;
+        case "/": divide(); break;
+        case "": return;
         default:
             return "INVALID OPERAND";
     }
 }
 
-function add(num1, num2) {
-    return num1 + num2;
+function clearDisplay()
+{
+    _display.clearDisplay();
+    currentVal = "";
+    heldVal = "";
+    operand = "";
 }
-
-function subtract(num1, num2) {
-    return num1 - num2;
-}
-
-function multiply(num1, num2) {
-    return num1 * num2;
-}
-
-function divide(num1, num2) {
-    return num1/num2;
-}
-
-function updateDisplay(input) {
-    if (newExpression)
-    {
-        displayField.textContent = "";
-        currDisplay = "";
-        newExpression = false;
-    }
-    displayField.textContent += input;
-    currDisplay += input;
-}
-
-
-
-
-
-
-
-function setUpHandlers() {
-    sevenBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("7"); console.log("seven clicked");});
-    sevenBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-    
-    eightBtn.addEventListener('click', () => {clickAnimation(eightBtn); updateDisplay("8"); console.log("eight clicked");});
-    eightBtn.addEventListener('mouseover', () => {onHover(eightBtn);})
-
-    nineBtn.addEventListener('click', () => {clickAnimation(nineBtn); updateDisplay("9"); console.log("nine clicked");});
-    nineBtn.addEventListener('mouseover', () => {onHover(nineBtn);})
-
-    divideBtn.addEventListener('click', () => {clickAnimation(divideBtn); updateDisplay("/"); console.log("divide clicked");});
-    divideBtn.addEventListener('mouseover', () => {onHover(divideBtn);})
-
-    fourBtn.addEventListener('click', () => {clickAnimation(fourBtn); updateDisplay("4"); console.log("four clicked");});
-    fourBtn.addEventListener('mouseover', () => {onHover(fourBtn);})
-
-    fiveBtn.addEventListener('click', () => {clickAnimation(fiveBtn); updateDisplay("5"); console.log("seven clicked");});
-    fiveBtn.addEventListener('mouseover', () => {onHover(fiveBtn);})
-
-    sixBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("6"); console.log("seven clicked");});
-    sixBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    subtractBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("-"); console.log("seven clicked");});
-    subtractBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    oneBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("1"); console.log("seven clicked");});
-    oneBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-    
-    twoBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("2"); console.log("seven clicked");});
-    twoBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    threeBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("3"); console.log("seven clicked");});
-    threeBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    addBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("+"); console.log("seven clicked");});
-    addBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    multiplyBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("x"); console.log("seven clicked");});
-    multiplyBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    zeroBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("0"); console.log("seven clicked");});
-    zeroBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    dotBtn.addEventListener('click', () => {clickAnimation(sevenBtn); updateDisplay("."); console.log("seven clicked");});
-    dotBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-    equalBtn.addEventListener('click', () => {clickAnimation(sevenBtn); calculate(currDisplay); console.log("seven clicked");});
-    equalBtn.addEventListener('mouseover', () => {onHover(sevenBtn);})
-
-}
-
-
 
 //Animation functions... Figure out later
 function onHover(btn) {
@@ -149,7 +194,6 @@ function onHover(btn) {
 function clickAnimation(btn) {
 
 }
-
 
 
 
