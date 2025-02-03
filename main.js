@@ -35,10 +35,11 @@ let heldVal = "";
 let newExpression = true;
 let evalPending = false;
 let clearOnNext = false;
+let dotFlag = false;
 let _display = new DisplayWindow();
 
 function add() {
-    num = parseInt(heldVal) + parseInt(currentVal);
+    num = Math.round((parseFloat(heldVal) + parseFloat(currentVal))*1000)/1000;
     console.log(`Added! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
     _display.clearDisplay();
     _display.addToDisplay(num);
@@ -61,10 +62,11 @@ function addBtn() {
     currentVal = "";
     evalPending = true;
     clearOnNext = true;
+    dotFlag = false;
 }
 
 function subtract() {
-    num = parseInt(heldVal) - parseInt(currentVal);
+    num = Math.round((parseFloat(heldVal) - parseFloat(currentVal))*1000)/1000;
     console.log(`Subtracted! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
     _display.clearDisplay();
     _display.addToDisplay(num);
@@ -87,10 +89,11 @@ function subtractBtn() {
     currentVal = "";
     evalPending = true;
     clearOnNext = true;
+    dotFlag = false;
 }
 
 function multiply() {
-    num = parseInt(heldVal) * parseInt(currentVal);
+    num = Math.round((parseFloat(heldVal) * parseFloat(currentVal))*1000)/1000;
     console.log(`Multiplied! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
     _display.clearDisplay();
     _display.addToDisplay(num);
@@ -113,10 +116,11 @@ function multiplyBtn() {
     currentVal = "";
     evalPending = true;
     clearOnNext = true;
+    dotFlag = false;
 }
 
 function divide() {
-    num = parseInt(heldVal) / parseInt(currentVal);
+    num = Math.round((parseFloat(heldVal) / parseFloat(currentVal))*1000)/1000;
     console.log(`Divided! num=${num}, held=${heldVal}, current=${currentVal}, op=${operand}`)
     _display.clearDisplay();
     _display.addToDisplay(num);
@@ -139,6 +143,7 @@ function divideBtn() {
     currentVal = "";
     evalPending = true;
     clearOnNext = true;
+    dotFlag = false;
 }
 
 function clickNumber(number){
@@ -151,6 +156,15 @@ function clickNumber(number){
     console.log(`clicked ${number}: held=${heldVal}, current=${currentVal}`)
 }
 
+function dotBtn() {
+    if (dotFlag)
+    {
+        return;
+    }
+    clickNumber(".");
+    dotFlag = true;
+}
+
 function equalsBtn()
 {
     if (currentVal == "" || operand == "")
@@ -161,6 +175,7 @@ function equalsBtn()
     calculate();
     evalPending = false;
     clearOnNext = true;
+    dotFlag = false;
     currentVal = "";
     heldVal = "";
     operand = "";
